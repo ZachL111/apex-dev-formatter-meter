@@ -1,0 +1,17 @@
+{
+  "repo": "apex-dev-formatter-meter",
+  "thresholds": {
+    "signal": 4,
+    "slack": 2,
+    "confidence": 1,
+    "drag": 3,
+    "ship": 192,
+    "watch": 102
+  },
+  "terms": [
+    "change width",
+    "diagnostic quality",
+    "review cost",
+    "safe rewrite"
+  ]
+}
