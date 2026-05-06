@@ -1,0 +1,73 @@
+{
+  "repo": "apex-dev-formatter-meter",
+  "language": "Rust",
+  "category": "Developer tools",
+  "goal": "Build a Rust toolkit that studies formatter behavior through windowed input fixtures, with late-data behavior checks and no network dependency.",
+  "review_model": {
+    "terms": [
+      "change width",
+      "diagnostic quality",
+      "review cost",
+      "safe rewrite"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "change width",
+      "signal": 56,
+      "slack": 25,
+      "drag": 25,
+      "confidence": 51,
+      "score": 113,
+      "lane": "watch"
+    },
+    {
+      "name": "stress",
+      "focus": "diagnostic quality",
+      "signal": 55,
+      "slack": 33,
+      "drag": 21,
+      "confidence": 71,
+      "score": 151,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "review cost",
+      "signal": 52,
+      "slack": 38,
+      "drag": 14,
+      "confidence": 51,
+      "score": 151,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "safe rewrite",
+      "signal": 75,
+      "slack": 43,
+      "drag": 16,
+      "confidence": 59,
+      "score": 204,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "change width",
+      "signal": 70,
+      "slack": 25,
+      "drag": 18,
+      "confidence": 61,
+      "score": 172,
+      "lane": "ship"
+    }
+  ]
+}

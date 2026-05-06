@@ -1,69 +1,40 @@
 # apex-dev-formatter-meter
 
-`apex-dev-formatter-meter` is a Rust project for Developer tools. It turns build a Rust toolkit that studies formatter behavior through windowed input fixtures, with late-data behavior checks and no network dependency into a small local model with readable fixtures and a direct verification command.
+`apex-dev-formatter-meter` is a compact Rust repository for developer tools, centered on this goal: Build a Rust toolkit that studies formatter behavior through windowed input fixtures, with late-data behavior checks and no network dependency.
 
-## Reading Apex Dev Formatter Meter
+## Problem It Tries To Make Smaller
 
-Start with the README, then open `metadata/project.json` to check the constants behind the examples. After that, `fixtures/cases.csv` shows the compact path and `examples/extended_cases.csv` gives a wider look at the same rule.
+The project exists to keep a narrow engineering decision visible and testable. For this repo, that decision is how change width and review cost should influence a review result.
 
-## Purpose
+## Apex Dev Formatter Meter Review Notes
 
-The repository exists to keep a technical idea small enough to reason about. The implementation avoids external dependencies where possible, then uses fixtures to make changes easy to review.
+For a quick review, compare `safe rewrite` with `change width` before reading the middle cases.
 
-## Files Worth Reading
+## Working Pieces
 
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-- `Cargo.toml`: Rust package metadata
+- `fixtures/domain_review.csv` adds cases for change width and diagnostic quality.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/apex-dev-formatter-walkthrough.md` walks through the case spread.
+- The Rust code includes a review path for `safe rewrite` and `change width`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## What It Does
+## Design Notes
 
-- Includes extended examples for safe defaults, including `recovery` and `degraded`.
-- Documents repeatable output tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
-- Adds a repository audit script that checks structure before running the language verifier.
+The core code exposes a scoring path and the added review layer uses `signal`, `slack`, `drag`, and `confidence`. The domain terms are `change width`, `diagnostic quality`, `review cost`, and `safe rewrite`.
 
-## Design Sketch
+The Rust addition stays small enough to inspect in one sitting.
 
-The project is organized around a compact model rather than a large framework. Inputs are scored, classified, and checked against golden fixtures. The constants live in code and are mirrored in metadata so documentation drift is easy to catch. The Rust code keeps ownership and data movement plain, which makes the tests useful for checking both behavior and API shape.
-
-## Setup
-
-Install Rust and run the commands from the repository root. The project does not need credentials or a hosted service.
-
-## Fixture Notes
-
-`boundary` is the first example I would inspect because it lands on the `review` path with a score of 38. The broader file also keeps `degraded` at -106 and `recovery` at 174, which gives the model a useful low-to-high spread.
-
-## Usage
+## Example Run
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Tests
 
-## Verification
+The same command runs the local verification path. The highest-scoring domain case is `recovery` at 204, which lands in `ship`. The most cautious case is `baseline` at 113, which lands in `watch`.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Known Limits
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Next Directions
-
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add one more developer tools fixture that focuses on a malformed or borderline input.
-
-## Limits
-
-This code is local-first. It makes no claim about deployed usage and avoids credentials, hosted state, and environment-specific setup.
+This remains a local project with deterministic fixtures. It does not depend on credentials, hosted services, or live data. Future work should add richer malformed inputs before widening the public API.

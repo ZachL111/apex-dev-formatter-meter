@@ -59,3 +59,5 @@ foreach ($pathPattern in $knownPaths) {
 }
 
 cargo test
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-apex-dev-formatter-detail.ps1
